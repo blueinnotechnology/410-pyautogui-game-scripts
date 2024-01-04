@@ -6,15 +6,15 @@ import numpy as np
 pyautogui.PAUSE = 0
 
 upper_area = {
-    "left": 1330,
-    "top": 315,
+    "left": 1280,
+    "top": 290,
     "width": 80,
     "height": 40
 }
 
 lower_area = {
-    "left": 1350,
-    "top": 330,
+    "left": 1260,
+    "top": 310,
     "width": 80,
     "height": 30
 }
@@ -62,26 +62,29 @@ if __name__ == "__main__":
                           upper_area["left"] + upper_area["width"],
                           upper_area["top"] + upper_area["height"])
 
+    print("Taking screenshot of lower area...")
     empty_lower_img = ImageGrab.grab(bbox=lower_bounding_box).convert('L')
     empty_lower_img_np = np.array(empty_lower_img)
 
+    print("Taking screenshot of upper area...")
     empty_upper_img = ImageGrab.grab(bbox=upper_bounding_box).convert('L')
     empty_upper_img_np = np.array(empty_upper_img)
 
+    print("You may start the game now.")
     while True:
 
-        screenshot()
+        # screenshot()
 
         # capture image in black & white format
         lower_image = ImageGrab.grab(bbox=lower_bounding_box).convert('L')
 
         # Calculate the difference between the two images
         lower_similarity = find_similarity(empty_lower_img, lower_image)
-        if (lower_similarity < 50):
+        if (lower_similarity < 40):
             pyautogui.keyUp('down')
             pyautogui.press('space')
         else:
             upper_image = ImageGrab.grab(bbox=upper_bounding_box).convert('L')
             upper_similarity = find_similarity(empty_upper_img, upper_image)
-            if (upper_similarity < 85):
+            if (upper_similarity < 70):
                 pyautogui.hold('down')
